@@ -874,32 +874,8 @@ void
 ev_pixbuf_cache_set_inverted_colors (EvPixbufCache *pixbuf_cache,
 				     gboolean       inverted_colors)
 {
-	gint i;
-
-	if (pixbuf_cache->inverted_colors == inverted_colors)
-		return;
-
+    ev_pixbuf_cache_clear (pixbuf_cache);
 	pixbuf_cache->inverted_colors = inverted_colors;
-
-	for (i = 0; i < pixbuf_cache->preload_cache_size; i++) {
-		CacheJobInfo *job_info;
-
-		job_info = pixbuf_cache->prev_job + i;
-		if (job_info && job_info->surface)
-			ev_document_misc_invert_surface (job_info->surface);
-
-		job_info = pixbuf_cache->next_job + i;
-		if (job_info && job_info->surface)
-			ev_document_misc_invert_surface (job_info->surface);
-	}
-
-	for (i = 0; i < PAGE_CACHE_LEN (pixbuf_cache); i++) {
-		CacheJobInfo *job_info;
-
-		job_info = pixbuf_cache->job_list + i;
-		if (job_info && job_info->surface)
-			ev_document_misc_invert_surface (job_info->surface);
-	}
 }
 
 cairo_surface_t *
