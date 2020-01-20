@@ -468,11 +468,18 @@ ev_document_misc_invert_surface (cairo_surface_t *surface) {
 	cairo_t *cr;
 
 	cr = cairo_create (surface);
-
-	/* white + DIFFERENCE -> invert */
 	cairo_set_operator (cr, CAIRO_OPERATOR_DIFFERENCE);
-	cairo_set_source_rgb (cr, 1., 1., 1.);
+	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
 	cairo_paint(cr);
+    
+	cairo_set_operator (cr, CAIRO_OPERATOR_SCREEN);
+	cairo_set_source_rgb (cr, 0.3, 0.3, 0.3);
+	cairo_paint(cr);
+    
+	cairo_set_operator (cr, CAIRO_OPERATOR_MULTIPLY);
+	cairo_set_source_rgb (cr, 0.8, 0.8, 0.8);
+	cairo_paint(cr);
+    
 	cairo_destroy (cr);
 }
 
